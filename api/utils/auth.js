@@ -8,16 +8,19 @@
 
 import crypto from "crypto";
 
+const ITERATIONS = 100000;
+const KEYLEN = 64;
+
 export function hashPassword(password, salt = crypto.randomBytes(16).toString("hex")) {
-  const hash = crypto.pbkdf2Sync(password, salt, 50000, 64, "sha512").toString("hex");
+  const hash = crypto.pbkdf2Sync(password, salt, ITERATIONS, KEYLEN, "sha512").toString("hex");
   return { salt, hash };
 }
 
 export function comparePassword(password, salt, hash) {
-  const next = crypto.pbkdf2Sync(password, salt, 50000, 64, "sha512").toString("hex");
+  const next = crypto.pbkdf2Sync(password, salt, ITERATIONS, KEYLEN, "sha512").toString("hex");
   return next === hash;
 }
 
 export function generateToken() {
-  return crypto.randomBytes(24).toString("hex");
+  return crypto.randomBytes(32).toString("hex");
 }
