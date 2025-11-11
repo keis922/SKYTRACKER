@@ -16,7 +16,7 @@ let cachedToken = null;
 let tokenExpiresAt = 0;
 
 async function getAccessToken() {
-  if (cachedToken && Date.now() < tokenExpiresAt) return cachedToken;
+  if (cachedToken && Date.now() < tokenExpiresAt - 30000) return cachedToken;
   const clientId = process.env.OPENSKY_CLIENT_ID;
   const clientSecret = process.env.OPENSKY_CLIENT_SECRET;
   if (!clientId || !clientSecret) return null;
@@ -25,7 +25,8 @@ async function getAccessToken() {
   params.append("client_id", clientId);
   params.append("client_secret", clientSecret);
   const response = await axios.post(openSkyTokenUrl, params, {
-    headers: { "Content-Type": "application/x-www-form-urlencoded" }
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    timeout: 8000
   });
   const { access_token, expires_in } = response.data || {};
   if (!access_token) return null;
@@ -34,7 +35,7 @@ async function getAccessToken() {
   return cachedToken;
 }
 
-function basicHeaders() {
+function buildFallbackAuth() {
   if (process.env.OPENSKY_USERNAME && process.env.OPENSKY_PASSWORD) {
     const auth = Buffer.from(
       `${process.env.OPENSKY_USERNAME}:${process.env.OPENSKY_PASSWORD}`
@@ -48,7 +49,7 @@ export async function fetchOpenSkyStates() {
   const headers = {};
   const token = await getAccessToken();
   if (token) headers.Authorization = `Bearer ${token}`;
-  else Object.assign(headers, basicHeaders());
-  const { data } = await axios.get(openSkyStatesUrl, { headers });
+  else Object.assign(headers, buildFallbackAuth());
+  const { data } = await axios.get(openSkyStatesUrl, { headers, timeout: 8000 });
   return data;
 }
