@@ -6,6 +6,14 @@
 // 
 // ⸻
 
-export default function Placeholder() {
-  return "TODO";
+import * as THREE from "three";
+
+const START_COLOR = new THREE.Color("#fb923c");
+const END_COLOR = new THREE.Color("#ec4899");
+const MAX_ALTITUDE = 12000;
+
+export function altitudeToColor(altitudeMeters = 0) {
+  const ratio = Math.min(Math.max(altitudeMeters, 0), MAX_ALTITUDE) / MAX_ALTITUDE;
+  const color = START_COLOR.clone().lerp(END_COLOR, ratio);
+  return `#${color.getHexString()}`;
 }
