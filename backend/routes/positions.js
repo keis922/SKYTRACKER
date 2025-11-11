@@ -12,8 +12,12 @@ import { getPositions } from "../services/flightsService.js";
 const router = Router();
 
 router.get("/", async (req, res) => {
-  const positions = await getPositions();
-  res.json({ positions });
+  try {
+    const positions = await getPositions();
+    res.json({ positions });
+  } catch (error) {
+    res.status(500).json({ error: "Unable to fetch positions" });
+  }
 });
 
 export default router;
