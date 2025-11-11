@@ -9,13 +9,30 @@
 import { supabase } from "./_supabase.js";
 
 export async function getFavorites(userId) {
-  if (!userId) return [];
-  const { data } = await supabase.from("favorites").select("*").eq("user_id", userId);
+  const { data, error } = await supabase
+    .from("favorites")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+  if (error) throw new Error(error.message);
   return data || [];
 }
 
 export async function toggleFavorite(userId, flight) {
-  if (!userId || !flight?.id) return getFavorites(userId);
-  await supabase.from("favorites").insert({ user_id: userId, flight_id: flight.id });
+  const { data: existing } = await supabase
+    .from("favorites")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("flight_id", flight.id)
+    .maybeSingle();
+  if (existing) {
+    await supabase.from("favorites").delete().eq("id", existing.id);
+    return getFavorites(userId);
+  }
+  await supabase.from("favorites").insert({
+    user_id: userId,
+    flight_id: flight.id,
+    flight_number: flight.flightNumber || ""
+  });
   return getFavorites(userId);
 }
