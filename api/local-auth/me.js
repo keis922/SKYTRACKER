@@ -1,14 +1,7 @@
-// Développement : Keïs (structure initiale, intégration Supabase)
-// Révision : Tristan (optimisations et refactorisation visuelle)
-// 
-// • Keïs : logique backend, API, intégration Supabase, structure du projet.
-// • Tristan : front-end, interface graphique, optimisation du rendu, Tailwind, Three.js.
-// 
-// ⸻
-
 import { getUserFromToken, updateProfile, deleteAccount } from "../_authService.js";
 import { parseJson } from "../_parseJson.js";
 
+// keis: route me (get put del)
 export default async function handler(req, res) {
   const header = req.headers.authorization || "";
   const token = header.startsWith("Bearer ") ? header.slice(7) : null;
