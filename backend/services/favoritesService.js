@@ -1,14 +1,7 @@
-// Développement : Keïs (structure initiale, intégration Supabase)
-// Révision : Tristan (optimisations et refactorisation visuelle)
-// 
-// • Keïs : logique backend, API, intégration Supabase, structure du projet.
-// • Tristan : front-end, interface graphique, optimisation du rendu, Tailwind, Three.js.
-// 
-// ⸻
-
 import { randomUUID } from "crypto";
 import { supabase } from "../api/_supabase.js";
 
+// keis: liste favoris ordonné
 export async function getFavorites(userId) {
   const { data, error } = await supabase
     .from("favorites")
@@ -24,6 +17,7 @@ export async function getFavorites(userId) {
   }));
 }
 
+// keis: toggle fav
 export async function toggleFavorite(userId, flight) {
   if (!userId || !flight?.id) {
     throw new Error("Flight data missing");
@@ -34,10 +28,12 @@ export async function toggleFavorite(userId, flight) {
     .eq("user_id", userId)
     .eq("flight_id", flight.id)
     .maybeSingle();
+
   if (existing) {
     await supabase.from("favorites").delete().eq("id", existing.id);
     return getFavorites(userId);
   }
+
   const payload = {
     id: randomUUID(),
     user_id: userId,
@@ -59,6 +55,7 @@ export async function toggleFavorite(userId, flight) {
   return getFavorites(userId);
 }
 
+// keis: change actif
 export async function setFavoriteStatus(userId, favoriteId, isActive) {
   if (!userId || !favoriteId) {
     throw new Error("Informations manquantes");
@@ -74,6 +71,7 @@ export async function setFavoriteStatus(userId, favoriteId, isActive) {
   return getFavorites(userId);
 }
 
+// keis: ajoute via code
 export async function addFavoriteByCode(userId, code) {
   if (!userId || !code) {
     throw new Error("Code requis");
@@ -105,6 +103,7 @@ export async function addFavoriteByCode(userId, code) {
   return getFavorites(userId);
 }
 
+// keis: supprime fav
 export async function removeFavorite(userId, favoriteId) {
   if (!userId || !favoriteId) {
     throw new Error("Informations manquantes");
