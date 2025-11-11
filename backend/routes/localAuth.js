@@ -1,11 +1,3 @@
-// Développement : Keïs (structure initiale, intégration Supabase)
-// Révision : Tristan (optimisations et refactorisation visuelle)
-// 
-// • Keïs : logique backend, API, intégration Supabase, structure du projet.
-// • Tristan : front-end, interface graphique, optimisation du rendu, Tailwind, Three.js.
-// 
-// ⸻
-
 import { Router } from "express";
 import {
   registerUser,
@@ -18,6 +10,7 @@ import {
 
 const router = Router();
 
+// keis: signup
 router.post("/signup", async (req, res) => {
   const { email, password, fullName, username } = req.body || {};
   try {
@@ -31,6 +24,7 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { email, username, identifier, password } = req.body || {};
   try {
+    // tristan: login
     const { user, token } = await loginUser({ email, username, identifier }, password);
     res.json({ user, token });
   } catch (error) {
@@ -43,12 +37,14 @@ router.get("/me", async (req, res) => {
   if (!user) {
     return res.status(401).json({ error: "Non authentifié." });
   }
+  // tristan: renvoie profil
   res.json({ user });
 });
 
 router.post("/logout", async (req, res) => {
   const header = req.headers.authorization || "";
   const token = header.startsWith("Bearer ") ? header.slice(7) : null;
+  // keis: logout
   await logoutUser(token);
   res.json({ ok: true });
 });
@@ -60,6 +56,7 @@ router.put("/me", async (req, res) => {
   }
   const { fullName, email, password, username } = req.body || {};
   try {
+    // keis: maj profil
     const user = await updateUserProfile(existing.id, { fullName, email, password, username });
     res.json({ user });
   } catch (error) {
@@ -72,6 +69,7 @@ router.delete("/me", async (req, res) => {
   if (!existing) {
     return res.status(401).json({ error: "Non authentifié." });
   }
+  // keis: delete profil
   await deleteUserAccount(existing.id);
   res.json({ ok: true });
 });
@@ -81,6 +79,7 @@ router.post("/reset-password", (req, res) => {
   if (!email) {
     return res.status(400).json({ error: "Email requis." });
   }
+  // tristan: stub reset
   res.json({
     ok: true,
     message: "Si un compte existe pour cet email, les instructions ont été envoyées."
