@@ -1,0 +1,23 @@
+/* Développement : Keïs (structure initiale, intégration Supabase)
+// Révision : Tristan (optimisations et refactorisation visuelle)
+// 
+// • Keïs : logique backend, API, intégration Supabase, structure du projet.
+// • Tristan : front-end, interface graphique, optimisation du rendu, Tailwind, Three.js.
+// 
+// ⸻ */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-night text-snow font-sans antialiased;
+  }
+}
+

@@ -1,0 +1,173 @@
+{
+  "entries": [
+    [
+      "30099c",
+      {
+        "departure": "LIPE",
+        "arrival": "LIPZ"
+      }
+    ],
+    [
+      "394813",
+      {
+        "departure": "LIPN",
+        "arrival": "LIPN"
+      }
+    ],
+    [
+      "39e688",
+      {
+        "departure": "LFPG",
+        "arrival": "LKPR"
+      }
+    ],
+    [
+      "44022d",
+      {
+        "departure": "LOWW",
+        "arrival": "EDDF"
+      }
+    ],
+    [
+      "461f5b",
+      {
+        "departure": "EFHK",
+        "arrival": "ZGSD"
+      }
+    ],
+    [
+      "4632af",
+      {
+        "departure": "",
+        "arrival": "EFKA"
+      }
+    ],
+    [
+      "4ba8ce",
+      {
+        "departure": "LTFJ",
+        "arrival": "EDDF"
+      }
+    ],
+    [
+      "4c8090",
+      {
+        "departure": "LGAV",
+        "arrival": "LCLK"
+      }
+    ],
+    [
+      "501e45",
+      {
+        "departure": "LICZ",
+        "arrival": "LGKL"
+      }
+    ],
+    [
+      "7020b1",
+      {
+        "departure": "VGZR",
+        "arrival": "VGEG"
+      }
+    ],
+    [
+      "780a43",
+      {
+        "departure": "VGZR",
+        "arrival": "VMMC"
+      }
+    ],
+    [
+      "780a49",
+      {
+        "departure": "",
+        "arrival": "VMMC"
+      }
+    ],
+    [
+      "780a7b",
+      {
+        "departure": "LTFM",
+        "arrival": "VMMC"
+      }
+    ],
+    [
+      "789245",
+      {
+        "departure": "KORD",
+        "arrival": "VMMC"
+      }
+    ],
+    [
+      "80149d",
+      {
+        "departure": "VISM",
+        "arrival": ""
+      }
+    ],
+    [
+      "801618",
+      {
+        "departure": "VOBL",
+        "arrival": ""
+      }
+    ],
+    [
+      "8016df",
+      {
+        "departure": "",
+        "arrival": "VECC"
+      }
+    ],
+    [
+      "a192bf",
+      {
+        "departure": "KLEE",
+        "arrival": "4FL6"
+      }
+    ],
+    [
+      "a46b3d",
+      {
+        "departure": "3MD9",
+        "arrival": "KADW"
+      }
+    ],
+    [
+      "a736c1",
+      {
+        "departure": "",
+        "arrival": "KLAX"
+      }
+    ],
+    [
+      "a9aba2",
+      {
+        "departure": "",
+        "arrival": "VMMC"
+      }
+    ],
+    [
+      "ab8fd2",
+      {
+        "departure": "KTTN",
+        "arrival": "KTEB"
+      }
+    ],
+    [
+      "ad444d",
+      {
+        "departure": "KMCO",
+        "arrival": "KMCO"
+      }
+    ],
+    [
+      "e49ff9",
+      {
+        "departure": "",
+        "arrival": "SIOI"
+      }
+    ]
+  ],
+  "timestamp": 1764418499617
+}

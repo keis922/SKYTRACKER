@@ -1,0 +1,20 @@
+{
+  "name": "sky-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"node node_modules/nodemon/bin/nodemon.js backend/server.js\" \"cd frontend && node node_modules/vite/bin/vite.js\"",
+    "server:node": "node node_modules/nodemon/bin/nodemon.js backend/server.js",
+    "front:node": "cd frontend && node node_modules/vite/bin/vite.js",
+    "build": "npm --prefix frontend run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "@supabase/supabase-js": "^2.45.4"
+  }
+}
