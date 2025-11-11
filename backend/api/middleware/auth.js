@@ -14,14 +14,17 @@ export async function auth(req, res, next) {
   if (!token) {
     return res.status(401).json({ error: "Missing token" });
   }
-  const { data } = await supabase
+
+  const { data, error } = await supabase
     .from("sessions")
     .select("token, user_id, users(*)")
     .eq("token", token)
-    .maybeSingle();
-  if (!data) {
+    .single();
+
+  if (error || !data) {
     return res.status(401).json({ error: "Invalid token" });
   }
+
   req.user = data.users || { id: data.user_id };
   next();
 }
