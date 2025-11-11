@@ -1,22 +1,11 @@
-// Développement : Keïs (structure initiale, intégration Supabase)
-// Révision : Tristan (optimisations et refactorisation visuelle)
-// 
-// • Keïs : logique backend, API, intégration Supabase, structure du projet.
-// • Tristan : front-end, interface graphique, optimisation du rendu, Tailwind, Three.js.
-// 
-// ⸻
-
 import { promises as fs } from "fs";
 import path from "path";
-
 const cacheDir = new URL("../cache", import.meta.url).pathname;
-
 async function ensureDir() {
-  try {
-    await fs.mkdir(cacheDir, { recursive: true });
-  } catch {}
+  try { await fs.mkdir(cacheDir, { recursive: true }); } catch {}
 }
 
+// keis: lit cache json
 export async function readCache(key) {
   await ensureDir();
   try {
@@ -27,6 +16,7 @@ export async function readCache(key) {
   }
 }
 
+// keis: ecrit cache json
 export async function writeCache(key, data) {
   await ensureDir();
   await fs.writeFile(path.join(cacheDir, `${key}.json`), JSON.stringify(data, null, 2));
