@@ -9,16 +9,31 @@
 import { fetchOpenSkyStates } from "./_opensky.js";
 
 export default async function handler(req, res) {
-  const payload = await fetchOpenSkyStates();
-  const states = Array.isArray(payload?.states) ? payload.states : [];
-  const positions = states.map((row) => ({
-    icao24: row[0] || null,
-    callsign: (row[1] || "").trim(),
-    originCountry: row[2] || "",
-    timePosition: row[3],
-    lastContact: row[4],
-    longitude: row[5],
-    latitude: row[6]
-  }));
-  res.status(200).json({ positions, time: payload?.time });
+  try {
+    const payload = await fetchOpenSkyStates();
+    const states = Array.isArray(payload?.states) ? payload.states : [];
+    const positions = states.map((row) => ({
+      icao24: row[0] || null,
+      callsign: (row[1] || "").trim(),
+      originCountry: row[2] || "",
+      timePosition: row[3],
+      lastContact: row[4],
+      longitude: row[5],
+      latitude: row[6],
+      baroAltitude: row[7],
+      onGround: row[8],
+      velocity: row[9],
+      trueTrack: row[10],
+      verticalRate: row[11],
+      sensors: row[12],
+      geoAltitude: row[13],
+      squawk: row[14],
+      spi: row[15],
+      positionSource: row[16],
+      category: row[17]
+    }));
+    res.status(200).json({ positions, time: payload?.time });
+  } catch (error) {
+    res.status(502).json({ positions: [], error: error.message });
+  }
 }
