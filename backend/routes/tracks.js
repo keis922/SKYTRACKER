@@ -7,11 +7,13 @@
 // ⸻
 
 import { Router } from "express";
+import { getTrackForAircraft } from "../services/flightsService.js";
 
 const router = Router();
 
-router.get("/:icao24", (req, res) => {
-  res.json({ track: [] });
+router.get("/:icao24", async (req, res) => {
+  const track = await getTrackForAircraft(req.params.icao24);
+  res.json({ track });
 });
 
 export default router;
