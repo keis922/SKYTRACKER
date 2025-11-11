@@ -1,11 +1,3 @@
-// Développement : Keïs (structure initiale, intégration Supabase)
-// Révision : Tristan (optimisations et refactorisation visuelle)
-// 
-// • Keïs : logique backend, API, intégration Supabase, structure du projet.
-// • Tristan : front-end, interface graphique, optimisation du rendu, Tailwind, Three.js.
-// 
-// ⸻
-
 import { promises as fs } from "fs";
 import path from "path";
 
@@ -17,6 +9,7 @@ async function ensureDir(dir) {
   } catch {}
 }
 
+// keis: lit json sinon default
 export async function readJSON(filePath, defaultValue) {
   const absoluteDir = path.dirname(filePath);
   await ensureDir(absoluteDir);
@@ -32,12 +25,14 @@ export async function readJSON(filePath, defaultValue) {
   }
 }
 
+// keis: ecrit json
 export async function writeJSON(filePath, data) {
   const absoluteDir = path.dirname(filePath);
   await ensureDir(absoluteDir);
   await fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf-8");
 }
 
+// keis: resolve chemin data
 export function resolveDataPath(filename) {
   return path.join(dataDir, filename);
 }
