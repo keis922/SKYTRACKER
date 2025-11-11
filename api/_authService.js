@@ -1,34 +1,31 @@
-// Développement : Keïs (structure initiale, intégration Supabase)
-// Révision : Tristan (optimisations et refactorisation visuelle)
-// 
-// • Keïs : logique backend, API, intégration Supabase, structure du projet.
-// • Tristan : front-end, interface graphique, optimisation du rendu, Tailwind, Three.js.
-// 
-// ⸻
-
 import { supabase } from "./_supabase.js";
 import { hashPassword, comparePassword, generateToken } from "./utils/auth.js";
 
+// keis: email lower trim
 function normalizeEmail(value) {
   return (value || "").trim().toLowerCase();
 }
 
+// keis: username lower trim
 function normalizeUsername(value) {
   return (value || "").trim().toLowerCase();
 }
 
+// keis: retire hash fields
 function sanitizeUser(user) {
   if (!user) return null;
   const { password_hash, password_salt, passwordHash, passwordSalt, ...rest } = user;
   return rest;
 }
 
+// keis: pseudo base
 function usernameCandidate(raw, fallback = "") {
   const trimmed = (raw || "").trim();
   const base = trimmed || fallback || `pilot-${Math.random().toString(36).slice(2, 6)}`;
   return base.slice(0, 32);
 }
 
+// keis: cherche pseudo unique
 async function ensureUniqueUsername(desired, excludeUserId = null) {
   let candidate = usernameCandidate(desired);
   const { data: exact } = await supabase
@@ -51,6 +48,7 @@ async function ensureUniqueUsername(desired, excludeUserId = null) {
   return `${candidate}-${Math.random().toString(36).slice(2, 4)}`;
 }
 
+// keis: cree session token
 export async function createSession(userId) {
   const token = generateToken();
   await supabase.from("sessions").insert({
@@ -61,6 +59,7 @@ export async function createSession(userId) {
   return token;
 }
 
+// keis: recup user via token
 export async function getUserFromToken(token) {
   if (!token) return null;
   const { data, error } = await supabase
@@ -72,6 +71,7 @@ export async function getUserFromToken(token) {
   return sanitizeUser(data.users || { id: data.user_id });
 }
 
+// keis: inscription avec pseudo auto
 export async function registerUser({ email, password, fullName = "", username = "" }) {
   const normalizedEmail = normalizeEmail(email);
   if (!normalizedEmail || !password) throw new Error("Email et mot de passe requis.");
@@ -108,6 +108,7 @@ export async function registerUser({ email, password, fullName = "", username = 
   return { user: sanitizeUser(inserted), token };
 }
 
+// keis: login mail ou pseudo
 export async function loginUser({ identifier, password }) {
   if (!password) throw new Error("Identifiants incorrects.");
   const raw = (identifier || "").trim();
@@ -128,11 +129,13 @@ export async function loginUser({ identifier, password }) {
   return { user: sanitizeUser(user), token };
 }
 
+// keis: logout simple
 export async function logoutUser(token) {
   if (!token) return;
   await supabase.from("sessions").delete().eq("token", token);
 }
 
+// keis: MAJ profil + email unique
 export async function updateProfile(userId, { fullName, email, password, username }) {
   const updates = {};
   if (typeof email === "string") {
@@ -172,6 +175,7 @@ export async function updateProfile(userId, { fullName, email, password, usernam
   return sanitizeUser(user);
 }
 
+// keis: supprime compte + donnees
 export async function deleteAccount(userId) {
   if (!userId) return;
   await supabase.from("favorites").delete().eq("user_id", userId);
