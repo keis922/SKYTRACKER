@@ -1,16 +1,9 @@
-// Développement : Keïs (structure initiale, intégration Supabase)
-// Révision : Tristan (optimisations et refactorisation visuelle)
-// 
-// • Keïs : logique backend, API, intégration Supabase, structure du projet.
-// • Tristan : front-end, interface graphique, optimisation du rendu, Tailwind, Three.js.
-// 
-// ⸻
-
 import { Router } from "express";
 import { getPositions } from "../services/flightsService.js";
 
 const router = Router();
 
+// tristan: get positions
 router.get("/", async (req, res) => {
   try {
     const positions = await getPositions();
