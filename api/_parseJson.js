@@ -1,11 +1,4 @@
-// Développement : Keïs (structure initiale, intégration Supabase)
-// Révision : Tristan (optimisations et refactorisation visuelle)
-// 
-// • Keïs : logique backend, API, intégration Supabase, structure du projet.
-// • Tristan : front-end, interface graphique, optimisation du rendu, Tailwind, Three.js.
-// 
-// ⸻
-
+// keis: lit req en json vite
 export async function parseJson(req) {
   if (req.body) {
     if (typeof req.body === "string") {
