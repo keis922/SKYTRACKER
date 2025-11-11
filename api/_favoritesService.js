@@ -1,14 +1,7 @@
-// Développement : Keïs (structure initiale, intégration Supabase)
-// Révision : Tristan (optimisations et refactorisation visuelle)
-// 
-// • Keïs : logique backend, API, intégration Supabase, structure du projet.
-// • Tristan : front-end, interface graphique, optimisation du rendu, Tailwind, Three.js.
-// 
-// ⸻
-
 import { randomUUID } from "crypto";
 import { supabase } from "./_supabase.js";
 
+// keis: liste favoris ordre recent
 export async function getFavorites(userId) {
   const { data, error } = await supabase
     .from("favorites")
@@ -22,6 +15,7 @@ export async function getFavorites(userId) {
   }));
 }
 
+// keis: toggle fav on/off
 export async function toggleFavorite(userId, flight) {
   if (!userId || !flight?.id) throw new Error("Flight data missing");
   const { data: existing } = await supabase
@@ -40,7 +34,7 @@ export async function toggleFavorite(userId, flight) {
     flight_id: flight.id,
     flight_number: flight.flightNumber || flight.callsign || "",
     airline: flight.airline || "",
-    status: flight.status || "",
+    status: flight.status || "Terminé",
     departure_airport: flight.departureAirport || "",
     arrival_airport: flight.arrivalAirport || "",
     latitude: flight.latitude ?? null,
@@ -53,6 +47,7 @@ export async function toggleFavorite(userId, flight) {
   return getFavorites(userId);
 }
 
+// keis: set actif ou non
 export async function setFavoriteStatus(userId, favoriteId, isActive) {
   if (!userId || !favoriteId) throw new Error("Informations manquantes");
   const { error } = await supabase
@@ -64,6 +59,7 @@ export async function setFavoriteStatus(userId, favoriteId, isActive) {
   return getFavorites(userId);
 }
 
+// keis: ajout manuel par code
 export async function addFavoriteByCode(userId, code) {
   if (!userId || !code) throw new Error("Code requis");
   const normalized = code.trim().toUpperCase();
@@ -93,6 +89,7 @@ export async function addFavoriteByCode(userId, code) {
   return getFavorites(userId);
 }
 
+// keis: supprime un fav
 export async function removeFavorite(userId, favoriteId) {
   if (!userId || !favoriteId) throw new Error("Informations manquantes");
   const { error } = await supabase
