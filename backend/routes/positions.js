@@ -7,11 +7,13 @@
 // ⸻
 
 import { Router } from "express";
+import { getPositions } from "../services/flightsService.js";
 
 const router = Router();
 
-router.get("/", (req, res) => {
-  res.json({ positions: [] });
+router.get("/", async (req, res) => {
+  const positions = await getPositions();
+  res.json({ positions });
 });
 
 export default router;
