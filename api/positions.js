@@ -1,13 +1,6 @@
-// Développement : Keïs (structure initiale, intégration Supabase)
-// Révision : Tristan (optimisations et refactorisation visuelle)
-// 
-// • Keïs : logique backend, API, intégration Supabase, structure du projet.
-// • Tristan : front-end, interface graphique, optimisation du rendu, Tailwind, Three.js.
-// 
-// ⸻
-
 import { fetchOpenSkyStates } from "./_opensky.js";
 
+// keis: route positions -> map brut
 export default async function handler(req, res) {
   try {
     const payload = await fetchOpenSkyStates();
@@ -34,6 +27,15 @@ export default async function handler(req, res) {
     }));
     res.status(200).json({ positions, time: payload?.time });
   } catch (error) {
-    res.status(502).json({ positions: [], error: error.message });
+    const status = error.response?.status;
+    const message =
+      error.response?.data?.error ||
+      error.message ||
+      "OpenSky unavailable";
+    res.status(200).json({
+      positions: [],
+      error: message,
+      upstreamStatus: status || null
+    });
   }
 }
