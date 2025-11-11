@@ -1,11 +1,3 @@
-// Développement : Keïs (structure initiale, intégration Supabase)
-// Révision : Tristan (optimisations et refactorisation visuelle)
-// 
-// • Keïs : logique backend, API, intégration Supabase, structure du projet.
-// • Tristan : front-end, interface graphique, optimisation du rendu, Tailwind, Three.js.
-// 
-// ⸻
-
 import "./config/env.js";
 import express from "express";
 import cors from "cors";
@@ -21,15 +13,16 @@ const app = express();
 const port = process.env.PORT || 3000;
 const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
 
+// keis: cors + json
 app.use(
   cors({
     origin: clientUrl,
     credentials: true
   })
 );
-
 app.use(express.json());
 
+// keis: routes api
 app.use("/api/flights", flightsRouter);
 app.use("/api/positions", positionsRouter);
 app.use("/api/favorites", favoritesRouter);
@@ -41,6 +34,7 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
+// keis: start + jobs
 app.listen(port, () => {
   initFlightUpdates();
   initPositionUpdates();
