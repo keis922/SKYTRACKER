@@ -6,6 +6,9 @@
 // 
 // ⸻
 
+import { fetchOpenSkyStates } from "./_opensky.js";
+
 export default async function handler(req, res) {
-  res.status(200).json({ positions: [] });
+  const payload = await fetchOpenSkyStates();
+  res.status(200).json({ positions: payload?.states || [], time: payload?.time });
 }
