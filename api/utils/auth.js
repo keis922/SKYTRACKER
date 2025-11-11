@@ -8,12 +8,16 @@
 
 import crypto from "crypto";
 
-export function hashPassword(password, salt = crypto.randomBytes(8).toString("hex")) {
-  const hash = crypto.pbkdf2Sync(password, salt, 2000, 32, "sha256").toString("hex");
+export function hashPassword(password, salt = crypto.randomBytes(16).toString("hex")) {
+  const hash = crypto.pbkdf2Sync(password, salt, 50000, 64, "sha512").toString("hex");
   return { salt, hash };
 }
 
 export function comparePassword(password, salt, hash) {
-  const next = crypto.pbkdf2Sync(password, salt, 2000, 32, "sha256").toString("hex");
+  const next = crypto.pbkdf2Sync(password, salt, 50000, 64, "sha512").toString("hex");
   return next === hash;
+}
+
+export function generateToken() {
+  return crypto.randomBytes(24).toString("hex");
 }
