@@ -14,5 +14,12 @@ export default async function handler(req, res) {
     return;
   }
   const body = await parseJson(req);
-  res.status(200).json({ email: body.email || "" });
+  if (!body.email) {
+    res.status(400).json({ error: "Email requis." });
+    return;
+  }
+  res.status(200).json({
+    ok: true,
+    message: "Si un compte existe pour cet email, les instructions ont été envoyées."
+  });
 }
