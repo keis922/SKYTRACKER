@@ -7,11 +7,20 @@
 // ⸻
 
 import { Router } from "express";
+import { registerUser, loginUser } from "../services/authService.js";
 
 const router = Router();
 
-router.post("/signup", (req, res) => {
-  res.status(501).json({ error: "Not implemented" });
+router.post("/signup", async (req, res) => {
+  const { email, password } = req.body || {};
+  const { user, token } = await registerUser(email, password);
+  res.json({ user, token });
+});
+
+router.post("/login", async (req, res) => {
+  const { identifier, password } = req.body || {};
+  const { user, token } = await loginUser(identifier, password);
+  res.json({ user, token });
 });
 
 export default router;
