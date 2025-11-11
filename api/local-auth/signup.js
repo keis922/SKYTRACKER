@@ -6,6 +6,7 @@
 // 
 // ⸻
 
+import { registerUser } from "../_authService.js";
 import { parseJson } from "../_parseJson.js";
 
 export default async function handler(req, res) {
@@ -14,5 +15,15 @@ export default async function handler(req, res) {
     return;
   }
   const body = await parseJson(req);
-  res.status(200).json({ email: body.email, ok: true });
+  try {
+    const { user, token } = await registerUser({
+      email: body.email,
+      password: body.password,
+      fullName: body.fullName,
+      username: body.username
+    });
+    res.status(200).json({ user, token });
+  } catch (error) {
+    res.status(400).json({ error: error.message || "Inscription impossible." });
+  }
 }
