@@ -7,17 +7,26 @@
 // ⸻
 
 import { Router } from "express";
+import { getUserFromRequest } from "../services/authService.js";
 import { getFavorites, toggleFavorite } from "../services/favoritesService.js";
 
 const router = Router();
 
 router.get("/", async (req, res) => {
-  const favorites = await getFavorites(req.query.userId);
+  const user = await getUserFromRequest(req);
+  if (!user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  const favorites = await getFavorites(user.id);
   res.json({ favorites });
 });
 
 router.post("/", async (req, res) => {
-  const favorites = await toggleFavorite(req.body.userId, req.body.flight);
+  const user = await getUserFromRequest(req);
+  if (!user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  const favorites = await toggleFavorite(user.id, req.body.flight);
   res.json({ favorites });
 });
 
