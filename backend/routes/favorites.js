@@ -1,11 +1,3 @@
-// Développement : Keïs (structure initiale, intégration Supabase)
-// Révision : Tristan (optimisations et refactorisation visuelle)
-// 
-// • Keïs : logique backend, API, intégration Supabase, structure du projet.
-// • Tristan : front-end, interface graphique, optimisation du rendu, Tailwind, Three.js.
-// 
-// ⸻
-
 import { Router } from "express";
 import { getUserFromRequest } from "../services/authService.js";
 import {
@@ -18,6 +10,7 @@ import {
 
 const router = Router();
 
+// keis: liste favoris
 router.get("/", async (req, res) => {
   const user = await getUserFromRequest(req);
   if (!user) {
@@ -41,6 +34,7 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ error: "Missing flight" });
   }
   try {
+    // tristan: add/toggle fav
     const favorites = await toggleFavorite(user.id, flight);
     res.json({ favorites });
   } catch (error) {
@@ -53,6 +47,7 @@ router.put("/:id", async (req, res) => {
   if (!user) {
     return res.status(401).json({ error: "Unauthorized" });
   }
+  // tristan: set statut
   try {
     const favorites = await setFavoriteStatus(user.id, req.params.id, req.body?.is_active);
     res.json({ favorites });
@@ -67,6 +62,7 @@ router.post("/manual", async (req, res) => {
     return res.status(401).json({ error: "Unauthorized" });
   }
   const code = req.body?.code;
+  // keis: ajoute manual code
   try {
     const favorites = await addFavoriteByCode(user.id, code);
     res.json({ favorites });
@@ -80,6 +76,7 @@ router.delete("/:id", async (req, res) => {
   if (!user) {
     return res.status(401).json({ error: "Unauthorized" });
   }
+  // keis: suppr fav
   try {
     const favorites = await removeFavorite(user.id, req.params.id);
     res.json({ favorites });
