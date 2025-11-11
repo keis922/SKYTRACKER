@@ -6,7 +6,8 @@
 // 
 // ⸻
 
-import { getUserFromToken } from "../_authService.js";
+import { getUserFromToken, updateProfile, deleteAccount } from "../_authService.js";
+import { parseJson } from "../_parseJson.js";
 
 export default async function handler(req, res) {
   const header = req.headers.authorization || "";
@@ -19,6 +20,28 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     res.status(200).json({ user });
+    return;
+  }
+
+  if (req.method === "PUT") {
+    const body = await parseJson(req);
+    try {
+      const updated = await updateProfile(user.id, {
+        fullName: body.fullName,
+        email: body.email,
+        password: body.password,
+        username: body.username
+      });
+      res.status(200).json({ user: updated });
+    } catch (error) {
+      res.status(400).json({ error: error.message || "Mise à jour impossible." });
+    }
+    return;
+  }
+
+  if (req.method === "DELETE") {
+    await deleteAccount(user.id);
+    res.status(200).json({ ok: true });
     return;
   }
 
